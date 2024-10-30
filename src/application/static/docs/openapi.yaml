@@ -1,0 +1,212 @@
+openapi: 3.1.0
+
+info:
+  version: "0.0.1"
+  title: OnlyFeet SAFE AI ✨ API Documentation
+  description: API Documentation for the OnlyFeet SAFE AI ✨ Project
+
+servers:
+  - url: https://onlyfeet-safeai.livelysky-3f8a11fb.westeurope.azurecontainerapps.io/api
+    description: Early development server
+
+paths:
+  /login:
+    post:
+      summary: User Login
+      description: |
+        Authenticates a user by validating their username and password.  
+        If authentication is successful, a session cookie is set, allowing access to other authenticated routes.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Successful authentication; session cookie set.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User authenticated successfully!
+        401:
+          description: Missing parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Missing required parameters!
+        403:
+          description: Invalid username or password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid username or password!
+
+  /register:
+    post:
+      summary: User Registration
+      description: Registers a new user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Successful registration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User registered successfully!
+        401:
+          description: Missing or duplicate parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Missing required parameters! or User already exists!
+
+  /gallery:
+    get:
+      summary: Gallery
+      description: Retrieves a list of image locations for the authenticated user.
+      security:
+        - sessionCookie: []
+      responses:
+        200:
+          description: List of image locations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: array
+                    items:
+                      type: string
+                    example: ["image1.jpg", "image2.jpg"]
+
+  /download_image:
+    get:
+      summary: Download Image
+      description: Downloads a specific image by filename for the authenticated user.
+      parameters:
+        - in: query
+          name: file
+          required: true
+          schema:
+            type: string
+          description: Filename of the image to download.
+      security:
+        - sessionCookie: []
+      responses:
+        200:
+          description: The requested file is returned as a binary stream.
+        401:
+          description: Missing parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Missing required parameters!
+        404:
+          description: File not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: File not found!
+
+  /upload:
+    post:
+      summary: Upload Image
+      description: Uploads an image with a specified label.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                label:
+                  type: string
+                  enum: [sfw, nsfw]
+      security:
+        - sessionCookie: []
+      responses:
+        200:
+          description: Successful upload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: File successfully uploaded
+        401:
+          description: Missing parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Missing required parameters!
+        400:
+          description: Unsupported label
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Supported labels are sfw or nsfw
+
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: session

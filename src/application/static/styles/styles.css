@@ -1,0 +1,119 @@
+* {
+    font-family: 'Raleway', Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: rosybrown
+}
+
+html, body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color: floralwhite;
+    padding: 25px 0;
+}
+
+footer {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+input[type=text],
+input[type=password] {
+    padding: 2px;
+    border: 1px solid rosybrown;
+    border-radius: 5px;
+
+    &:focus {
+        outline: none;
+        border: 1px solid brown !important;
+    }
+}
+
+h1 {
+    margin: 25px 0;
+    font-size: large;
+}
+
+h2 {
+    margin: 15px 0;
+    font-size: medium;
+}
+
+h3 {
+    margin: 5px 0;
+    font-size: small;
+}
+
+p {
+    max-width: 1000px;
+    text-align: justify;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    margin: 50px;
+    text-align: justify;
+}
+
+blockquote {
+    background-color: blanchedalmond;
+    padding: 15px;
+    max-width: 1000px;
+}
+
+#title {
+    font-family: 'Pacifico';
+    font-size: 40px;
+    font-weight: bold;
+    color: palevioletred;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+#subtitle {
+    font-family: 'Pacifico';
+    font-size: 16px;
+}
+
+.box {
+    width: fit-content;
+    block-size: fit-content;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 15px;
+}
+
+.horizontal {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
